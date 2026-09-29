@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#030304"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<title>OmniVolt</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+:root{--bg:#030304;--sf:#0F1115;--fg:#fff;--mu:#94A3B8;--bd:rgba(255,255,255,.1);--or:#F7931A;--bo:#EA580C;--gd:#FFD600;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 Inter,system-ui,sans-serif;min-height:100vh;position:relative;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background-size:50px 50px;background-image:linear-gradient(to right,rgba(30,41,59,.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,41,59,.5) 1px,transparent 1px);-webkit-mask-image:radial-gradient(circle at center,#000 30%,transparent 100%);mask-image:radial-gradient(circle at center,#000 30%,transparent 100%);z-index:-1}
+body:after{content:"";position:fixed;top:-120px;left:50%;width:500px;height:400px;margin-left:-250px;background:var(--or);opacity:.1;filter:blur(120px);z-index:-1}
+h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.15;margin:0}
+.mono{font-family:'JetBrains Mono',monospace}
+.g{background:linear-gradient(to right,var(--or),var(--gd));-webkit-background-clip:text;background-clip:text;color:transparent}
+.wrap{max-width:1100px;margin:auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+.logo{font:700 22px 'Space Grotesk';display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--or);box-shadow:0 0 14px var(--or);animation:ping 2s infinite}
+@keyframes ping{50%{opacity:.35}}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:20px;transition:all .3s}
+.card:hover{border-color:rgba(247,147,26,.5);box-shadow:0 0 30px -10px rgba(247,147,26,.2)}
+.glass{background:rgba(255,255,255,.05);backdrop-filter:blur(12px)}
+.grid{display:grid;gap:16px}
+.g4{grid-template-columns:1fr 1fr}
+button{font:600 13px Inter;letter-spacing:.08em;text-transform:uppercase;min-height:44px;padding:0 24px;border-radius:999px;border:0;cursor:pointer;color:#fff;background:linear-gradient(to right,var(--bo),var(--or));box-shadow:0 0 20px -5px rgba(234,88,12,.5);transition:all .3s}
+button:hover{transform:scale(1.05);box-shadow:0 0 30px -5px rgba(247,147,26,.6)}
+button.o{background:none;border:2px solid rgba(255,255,255,.2);box-shadow:none}
+button.o:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+input,select{width:100%;height:48px;background:rgba(0,0,0,.5);color:#fff;border:0;border-bottom:2px solid rgba(255,255,255,.2);padding:0 16px;font:14px Inter;margin:6px 0 14px}
+input:focus{border-color:var(--or);box-shadow:0 10px 20px -10px rgba(247,147,26,.3)}
+label{font:12px 'JetBrains Mono';color:var(--mu);text-transform:uppercase;letter-spacing:.1em}
+.mu{color:var(--mu)}.sm{font-size:13px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 20px}
+.tabs button{background:none;box-shadow:none;border:1px solid var(--bd);padding:0 16px;color:var(--mu)}
+.tabs button.on{border-color:var(--or);color:var(--or)}
+.pick{cursor:pointer;border:1px solid var(--bd);border-radius:12px;padding:14px;background:rgba(0,0,0,.3)}
+.pick.on{border-color:var(--or);box-shadow:0 0 20px -5px rgba(247,147,26,.4)}
+.badge{font:11px 'JetBrains Mono';padding:2px 10px;border-radius:99px;border:1px solid rgba(247,147,26,.5);color:var(--or);text-transform:uppercase}
+.ok{color:var(--gd);border-color:rgba(255,214,0,.5)}
+.bar{height:8px;background:rgba(255,255,255,.1);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(to right,var(--bo),var(--gd))}
+.pin{font:700 44px 'JetBrains Mono';letter-spacing:.3em;text-align:center}
+.slot{height:60px;border-radius:12px;border:1px solid var(--bd);display:grid;place-items:center;font:12px 'JetBrains Mono';color:var(--mu)}
+.slot.lit{border-color:var(--gd);color:#000;background:var(--gd);box-shadow:0 0 30px rgba(255,214,0,.6);animation:ping 1s infinite}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));max-width:480px;margin:auto;z-index:9;background:var(--sf);border:1px solid var(--or);box-shadow:0 0 40px -10px rgba(247,147,26,.5);border-radius:16px;padding:16px}
+#chatb{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:8}
+#chat{position:fixed;right:16px;bottom:calc(76px + env(safe-area-inset-bottom,0px));width:min(340px,calc(100% - 32px));z-index:8;display:none}
+#msgs{height:240px;overflow:auto;font-size:14px}
+.m{margin:6px 0;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.06)}.m.u{background:rgba(247,147,26,.15);text-align:right}
+svg text{font:10px 'JetBrains Mono';fill:#94A3B8}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+
+/* mobile-first overrides */
+html{-webkit-text-size-adjust:100%}*{-webkit-tap-highlight-color:transparent}
+button,input,select{touch-action:manipulation}
+.wrap{max-width:520px;padding:12px 16px 96px}
+input,select{font-size:16px}
+button{min-height:48px}
+h1{font-size:28px!important}
+.pin{font-size:34px;letter-spacing:.2em}
+.card{padding:16px}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:7;display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0;background:rgba(15,17,21,.92);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs button{border:0;border-radius:0;min-height:58px;padding:0 4px;font-size:11px;letter-spacing:.04em;transform:none;box-shadow:none;background:none}
+.tabs button.on{color:var(--or);background:rgba(247,147,26,.08);box-shadow:inset 0 2px 0 var(--or)}
+.toast{bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+#chatb{bottom:calc(74px + env(safe-area-inset-bottom,0px));min-height:44px;padding:0 18px}
+#chat{left:16px;right:16px;width:auto;bottom:calc(130px + env(safe-area-inset-bottom,0px))}
+#msgs{height:220px}
+.slot{height:52px;font-size:10px}
+</style></head><body><div class="wrap" id="app"></div>
+<div id="chat" class="card glass"><b class="mono sm">OMNI-BOT · HELP</b><div id="msgs"></div><input id="ci" placeholder="Ask about rentals, PIN, returns…" aria-label="Chat message"></div>
+<button id="chatb" aria-label="Open help chat">Help</button><div id="tw"></div>
+<script>
+const CATS={std:{n:'OmniStandard · Phone',d:'Mobile charging',p:'5V / 10W',dr:.05,c:'📱'},lap:{n:'OmniStandard · Laptop',d:'USB-C laptop charging',p:'65W',dr:.12,c:'💻'},fast:{n:'OmniFast',d:'Laptop + phone simultaneously, fast',p:'100W dual',dr:.2,c:'⚡'},wl:{n:'OmniWireless',d:'Magnetic wireless charging',p:'15W MagSafe-style',dr:.08,c:'🧲'}};
+const ST=[{id:'S1',n:'Library Atrium',x:120,y:90},{id:'S2',n:'Engineering Block',x:330,y:70},{id:'S3',n:'Student Canteen',x:250,y:200},{id:'S4',n:'Hostel Gate',x:80,y:230}].map((s,i)=>({...s,lat:13.0+i*.002,lng:80.2+i*.003,slots:8,free:3+i,stock:{std:3,lap:2,fast:1+i%2,wl:2},solar:200+i*40,batt:70+i*5,temp:34,ok:true}));
+let S={user:null,pos:{x:200,y:150},cat:'std',dur:2,role:'student',tab:'rent',rent:null,speed:1,pick:null,slot:null,dev:false};
+try{const u=localStorage.getItem('ov_user');if(u)S.user=JSON.parse(u)}catch(e){}
+const $=q=>document.querySelector(q),dist=s=>Math.hypot(s.x-S.pos.x,s.y-S.pos.y)*3|0;
+const score=(s,ret)=>{if(!s.ok)return 1e9;const need=ret?s.free<1:s.stock[S.cat]<1;return dist(s)+(need?1e6:0)+(8-s.free)*8};
+const best=ret=>[...ST].sort((a,b)=>score(a,ret)-score(b,ret))[0];
+const pad=n=>String(n).padStart(2,'0'),fmt=t=>{t=Math.max(0,t|0);return pad(t/3600|0)+':'+pad(t%3600/60|0)+':'+pad(t%60)};
+function toast(h,btn){$('#tw').innerHTML=`<div class="toast" role="alert">${h}<div style="margin-top:10px"><button class="o" onclick="this.closest('.toast').remove()">Dismiss</button> ${btn||''}</div></div>`}
+function login(){const e=$('#em').value.trim().toLowerCase(),p=$('#ph').value.trim(),n=$('#nm').value.trim();
+ if(!/^[^@\s]+@[^@\s]+\.(edu|ac\.[a-z]{2}|edu\.[a-z]{2})$/.test(e))return $('#er').textContent='Use your student email (.edu / .ac.in).';
+ if(!n||!/^\+?\d{10,13}$/.test(p))return $('#er').textContent='Enter your name and a valid phone number.';
+ S.user={email:e,name:n,phone:p};try{localStorage.setItem('ov_user',JSON.stringify(S.user))}catch(x){}render()}
+function adminIn(){S.role='admin';S.user={name:'Admin',email:'admin@omnivolt'};render()}
+function mapSvg(t){const r=t&&S.pick;return `<svg viewBox="0 0 420 300" width="100%" style="background:rgba(0,0,0,.4);border-radius:12px;cursor:crosshair" onclick="mv(event)" role="img" aria-label="Campus map"><defs><pattern id="p" width="30" height="30" patternUnits="userSpaceOnUse"><path d="M30 0H0V30" fill="none" stroke="#1E293B"/></pattern></defs><rect width="420" height="300" fill="url(#p)"/>
+${r?`<line x1="${S.pos.x}" y1="${S.pos.y}" x2="${r.x}" y2="${r.y}" stroke="#F7931A" stroke-width="2" stroke-dasharray="6 4"/>`:''}
+${ST.map(s=>`<circle cx="${s.x}" cy="${s.y}" r="${r&&r.id==s.id?13:9}" fill="${s.ok?'#F7931A':'#555'}" opacity=".9"/><text x="${s.x+14}" y="${s.y+4}">${s.n}</text>`).join('')}
+<circle cx="${S.pos.x}" cy="${S.pos.y}" r="6" fill="#FFD600"/><text x="${S.pos.x+9}" y="${S.pos.y-8}" style="fill:#FFD600">YOU</text></svg>`}
+function mv(e){const b=e.currentTarget.getBoundingClientRect();S.pos={x:(e.clientX-b.left)/b.width*420,y:(e.clientY-b.top)/b.height*300};S.pick=null;render()}
+function start(){const b=S.pick||best();if(b.stock[S.cat]<1)return toast('No stock at this station for that category.');S.rent={pin:String(100000+Math.random()*900000|0),st:b,cat:S.cat,dur:S.dur*3600,started:0,batt:100,slot:null,done:false};b.stock[S.cat]--;S.tab='rent';render()}
+function kiosk(){const r=S.rent,v=$('#kp').value;if(v!==r.pin)return $('#ke').textContent='Wrong PIN.';r.slot=1+Math.random()*8|0;r.started=Date.now();r.st.free--;render()}
+function retn(){const r=S.rent;const b=best(true);b.free=Math.max(0,b.free-1);b.stock[r.cat]++;S.rent=null;toast(`Returned at <b>${b.n}</b>. Thanks for using solar power ☀️`);render()}
+function nav(s){open(`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=walking`,'_blank','noopener')}
+function el(){return S.rent&&S.rent.started?(Date.now()-S.rent.started)/1000*S.speed:0}
+function view(){
+ if(!S.user)return `<div style="max-width:440px;margin:8vh auto"><div class="logo" style="font-size:32px;margin-bottom:8px"><span class="dot"></span>Omni<span class="g">Volt</span></div><p class="mu">Solar power bank rentals for campus.</p><div class="card glass"><h2 style="font-size:24px">Student login</h2><label for="nm">Full name</label><input id="nm"><label for="em">Student email</label><input id="em" type="email" placeholder="name@college.edu"><label for="ph">Contact phone (for management queries)</label><input id="ph" type="tel" placeholder="+91XXXXXXXXXX"><p id="er" class="sm" style="color:var(--bo);margin:0 0 10px"></p><button onclick="login()">Sign in</button> <button class="o" onclick="adminIn()">Admin demo</button></div></div>`;
+ const hd=`<header><div class="logo"><span class="dot"></span>Omni<span class="g">Volt</span></div><div class="sm mu mono">${S.user.name} · <a href="#" style="color:var(--or)" onclick="out()">sign out</a></div></header>`;
+ if(S.role==='admin')return hd+`<h1 style="font-size:34px;margin:8px 0 4px">Station <span class="g">Command</span></h1><p class="mu"><span class="badge">● live</span> Data refreshes every 2s (simulated telemetry).</p><div class="grid g2">${ST.map(s=>`<div class="card"><div style="display:flex;justify-content:space-between"><h3>${s.n}</h3><span class="badge ${s.ok?'ok':''}">${s.ok?'online':'offline'}</span></div><div class="grid g2 mono sm" style="margin:12px 0;gap:6px"><span>Slots free <b>${s.free}/${s.slots}</b></span><span>Solar <b>${s.solar|0} W</b></span><span>Temp <b>${s.temp.toFixed(1)}°C</b></span><span>Stock <b>${Object.values(s.stock).reduce((a,b)=>a+b)}</b></span></div><label>Battery reserve ${s.batt|0}%</label><div class="bar" style="margin:6px 0 12px"><i style="width:${s.batt}%"></i></div><div class="sm mu mono">${Object.keys(CATS).map(k=>k+':'+s.stock[k]).join(' · ')}</div><p><button class="o" onclick="ST.find(x=>x.id=='${s.id}').ok=!${s.ok};render()">Toggle status</button></p></div>`).join('')}</div>`;
+ const T=[['rent','⚡ Rent'],['active','🔋 My rental'],['acct','👤 Account']];
+ let b='';
+ if(S.tab==='rent'){const bs=best(),cur=S.pick||bs;b=`<div class="grid g4">${Object.entries(CATS).map(([k,c])=>`<div class="pick ${S.cat==k?'on':''}" onclick="S.cat='${k}';S.pick=null;render()" role="button" tabindex="0"><div style="font-size:24px">${c.c}</div><b class="mono sm">${c.n}</b><div class="sm mu">${c.d}</div><span class="badge">${c.p}</span></div>`).join('')}</div>
+ <div class="grid g2" style="margin-top:16px"><div class="card"><label for="du">Duration: <b class="g">${S.dur} h</b> (max 6h)</label><input id="du" type="range" min="0.5" max="6" step="0.5" value="${S.dur}" oninput="S.dur=+this.value;document.querySelector('label[for=du] b').textContent=S.dur+' h'" style="accent-color:#F7931A;padding:0"><h3 style="margin:8px 0">Best station</h3>${[...ST].sort((a,c)=>score(a)-score(c)).map(s=>`<div class="pick ${cur.id==s.id?'on':''}" style="margin:8px 0" onclick="S.pick=ST.find(x=>x.id=='${s.id}');render()"><b>${s.n}</b> ${s.id==bs.id?'<span class="badge ok">best</span>':''}<div class="sm mu mono">${dist(s)} m · ${s.stock[S.cat]} in stock${s.ok?'':' · offline'}</div></div>`).join('')}</div>
+ <div class="card">${mapSvg(1)}<p class="sm mu">Tap map to set your position.</p><button onclick="start()">Rent from ${cur.n}</button> <button class="o" onclick="nav(ST.find(x=>x.id=='${cur.id}'))">Navigate</button></div></div>`}
+ if(S.tab==='active'){const r=S.rent;if(!r)b=`<div class="card mu">No active rental.</div>`;else{const left=r.dur-el(),bt=Math.max(0,r.batt);b=`<div class="grid g2"><div class="card"><span class="badge">${CATS[r.cat].n}</span><p class="mu sm">Your 6-digit PIN</p><div class="pin g">${r.pin}</div><p class="sm mu" style="text-align:center">Pickup: <b>${r.st.n}</b> · enter PIN at the station kiosk</p>
+ ${r.started?`<h2 class="mono g" style="font-size:44px;text-align:center">${fmt(left)}</h2><label>Power bank charge ${bt|0}%</label><div class="bar" style="margin-top:6px"><i style="width:${bt}%"></i></div><p><button onclick="retn()">Return power bank</button></p>`:`<button class="o" onclick="nav(S.rent.st)">Navigate to station</button>`}</div>
+ <div class="card"><h3>Station kiosk (simulator)</h3><div class="grid" style="grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0">${[...Array(8)].map((_,i)=>`<div class="slot ${r.slot==i+1?'lit':''}">SLOT ${i+1}</div>`).join('')}</div>${r.started?`<p class="sm">Slot <b>${r.slot}</b> unlocked. Timer started.</p><label>Demo speed</label><select onchange="S.speed=+this.value"><option value="1">1×</option><option value="60" ${S.speed==60?'selected':''}>60× (demo)</option></select>`:`<label for="kp">Enter PIN</label><input id="kp" maxlength="6" inputmode="numeric" class="mono"><p id="ke" class="sm" style="color:var(--bo);margin:0 0 8px"></p><button onclick="kiosk()">Unlock slot</button>`}</div></div>`}}
+ if(S.tab==='acct')b=`<div class="card"><h3>Account</h3><p class="mono sm">${S.user.name}<br>${S.user.email}<br>${S.user.phone}</p><p class="sm mu">Contact details are stored so management can reach you about rental queries.</p></div>`;
+ return hd+b+`<nav class="tabs" aria-label="Main">${T.map(t=>`<button class="${S.tab==t[0]?'on':''}" onclick="S.tab='${t[0]}';render()">${t[1]}</button>`).join('')}</nav>`}
+function out(){S.user=null;S.role='student';try{localStorage.removeItem('ov_user')}catch(e){};render()}
+function render(){const a=document.activeElement.id;if(a==='kp'||a==='du'||a==='nm'||a==='em'||a==='ph')return;$('#app').innerHTML=view()}
+setInterval(()=>{ST.forEach(s=>{s.solar=Math.max(80,s.solar+Math.random()*30-15);s.batt=Math.min(100,Math.max(20,s.batt+Math.random()*2-1));s.temp+=Math.random()-.5});const r=S.rent;
+ if(r&&r.started){r.batt=100-el()/3600*CATS[r.cat].dr*100*3;if(!r.done&&el()>=r.dur){r.done=true;const b=best(true);toast(`⏰ Time's up! Return your power bank to <b>${b.n}</b> (${dist(b)} m away).`,`<button onclick="nav(ST.find(x=>x.id=='${b.id}'))">Navigate</button>`)}}
+ if(S.role==='admin'||(r&&r.started)&&!(document.activeElement||{}).id)render()},2000);
+setInterval(()=>{if(S.rent&&S.rent.started&&S.tab==='active')render()},1000);
+const KB=[[/pin/,'Your unique 6-digit PIN appears under "My rental". Enter it at the station kiosk and your slot will light up.'],[/return|late|time/,'When time ends you get an alert with the best station for return. Use Return power bank after docking.'],[/charge|battery|%/,'Charge percentage is shown live on the My rental tab.'],[/wireless|magnet/,'OmniWireless is a magnetic pad charger for compatible phones.'],[/fast|laptop/,'OmniFast charges laptop and phone at once; OmniStandard Laptop suits laptops only.'],[/login|email/,'Only student email IDs (.edu / .ac.in) can sign in.'],[/hour|duration|long/,'Rentals run 30 min to 6 hours max.']];
+function say(t,u){$('#msgs').insertAdjacentHTML('beforeend',`<div class="m ${u?'u':''}">${t}</div>`);$('#msgs').scrollTop=1e5}
+$('#chatb').onclick=()=>{const c=$('#chat');c.style.display=c.style.display=='block'?'none':'block';if(!$('#msgs').children.length)say('Hi, I\'m Omni-Bot ⚡ Ask me about PINs, categories, returns or charging.')};
+$('#ci').onkeydown=e=>{if(e.key!=='Enter'||!e.target.value.trim())return;const q=e.target.value;e.target.value='';say(q,1);const h=KB.find(k=>k[0].test(q.toLowerCase()));setTimeout(()=>say(h?h[1]:'I\'m not sure. Please contact management via your registered phone/email and we\'ll follow up.'),400)};
+render();
+</script></body></html>
